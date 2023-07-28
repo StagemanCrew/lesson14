@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-2</title>
+</head>
+<body>
+    <h1>Розробити функцію, у яку передають об’єкт (день, місяць, рік). Визначити, який буде рік через N місяців.</h1>
+
+    <script>
+
+        //1.Вводимо даннi
+        let userDate = {
+            day: 26,
+            month: 7,
+            year: 2023,
+        }
+
+        //2.Знаходимо результат
+        // function getShiftedMonth(userDate, n) {
+        //     //(currentValue - min +N)%(max-min+1) +min    //min=1, max =12
+        //     return ((userDate.month - 1 + n) % 12) + 1
+        // }
+
+        function getShiftedMonth({month}, N) {
+            return ((month - 1 + N) % 12) + 1
+        }
+
+        //3.Виводимо результат
+        let n = parseInt(prompt(`Введіть кількість місяців.`))
+        let shiftedMonth = getShiftedMonth(userDate, n)
+        alert(`Через ${n} місяців буде ${shiftedMonth} місяць`)
+
+    </script>
+</body>
+</html>

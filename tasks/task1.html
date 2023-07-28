@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task-1</title>
+</head>
+<body>
+    <h4>Описати масив об’єктів – сайтів розроблених компанією з такими властивостями: <br>
+        ----- Властивості ----- <br>
+            -назва компанії на час розробки (назву періодично змінюють). <br>
+            -власник компанії. <br>
+            -споснсори (масив спонсорів). <br>
+                * прізвище спонсора. <br>
+                * ім’я  спонсора. <br>
+                * сума вкладень спонсора. <br>
+            -рік випуску. <br>
+            -вартість сайту. <br>
+        Знайти: <br>
+        1) загальну вартість усіх сайтів. <br>
+        2) Кількість сайтів, що було зроблено між 2000 та 2009 рр. <br>
+        3) Кількість сайтів, де сума спонсорських вкладень була більшою за 100000. <br>
+        4) Створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив). <br>
+        5) Знайти рік, коли прибуток був найбільшим. <br>
+        6) Упорядкувати список за спаданням прибутку. <br>
+        7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000.</h4>
+
+    <script>
+
+        //1. Вводимо даннi
+        let websites = [
+            {
+                company: 'A',
+                ownerCompany: 'A',
+                sponsors: {
+                    lastName: 'Bandera',
+                    firstName: 'Stepan',
+                    investment: 100000,
+                },
+                release: 2002,
+                priceWebsite: 10000,
+            },
+            {
+                company: 'B',
+                ownerCompany: 'B',
+                sponsors: {
+                    lastName: 'Ukrainka',
+                    firstName: 'Lesya',
+                    investment: 150000,
+                },
+                release: 2007,
+                priceWebsite: 25000,
+            },
+            {
+                company: 'C',
+                ownerCompany: 'C',
+                sponsors: {
+                    lastName: 'Shevchenko',
+                    firstName: 'Taras',
+                    investment: 200000,
+                },
+                release: 2010,
+                priceWebsite: 15000,
+            },
+        ]
+//===============================================================================================================
+//--------------------------2. Знаходимо результат--------------------------
+        // 1) Загальну вартість усіх сайтів.priceWebsite
+        let totalPriceWebsites = websites.reduce(
+            (prevSum, website) => prevSum + website.priceWebsite,
+            0
+        )
+        document.write(`<h2>1) Загальна вартість усіх сайтів: ${totalPriceWebsites}$ </h2>`)
+
+//===============================================================================================================
+        // 2) Кількість сайтів, що було зроблено між 2000 та 2009 рр.release
+        let countWebsites = websites.reduce(
+            (prevTotalCount, website) => website.release > 2000 && website.release < 2009 ? prevTotalCount + 1 : prevTotalCount,
+            0
+        )
+        document.write(`<h2>2) Кількість сайтів, що було зроблено між 2000 та 2009 рр: ${countWebsites} </h2>`)
+
+//===============================================================================================================
+        // 3) Кількість сайтів, де сума спонсорських вкладень була більшою за 100000.investment
+        let countInvestment = 0
+        for (const website of websites) {
+            if (website.release > 2000 && website.release < 2009)
+            countInvestment ++
+        }
+        document.write(`<h2>3) Кількість сайтів, де сума спонсорських вкладень була більшою за 100000: ${countInvestment} </h2>`)
+
+//===============================================================================================================
+        // 4) Створити загальний список усіх спонсорів (поки можуть повторюватись, просто зібрати усі у масив).sponsors
+        let sponsorsList = websites.map((website) => ({
+            sponsorName:website.sponsors.firstName,
+            sponsorLastName:website.sponsors.lastName,
+        }))
+        document.write(`<h2>4) console.log(sponsorsList) </h2>`)
+        console.log(sponsorsList)
+        // sponsorsList.forEach((sponsor) => {
+        // document.write(`<h2>${sponsor.sponsorName} ${sponsor.sponsorLastName}</h2>`);
+        // });
+
+//===============================================================================================================
+        // 5) Знайти рік, коли прибуток був найбільшим.release-priceWebsite
+        let maxProfitYear = websites.reduce((maxWebsite, website) => {
+            return website.priceWebsite > maxWebsite.priceWebsite ? website : maxWebsite
+        })
+        document.write(`<h2>5) Рік з найбільшим прибутком: ${maxProfitYear.release} </h2>`)
+
+//===============================================================================================================
+        // 6) Упорядкувати список за спаданням прибутку.priceWebsite
+        let sortedWebsites = websites.slice(); // Створимо копію масиву.
+        sortedWebsites.sort((a, b) => b.priceWebsite - a.priceWebsite)
+        // Виведення відсортованого списку на сторінку:
+        document.write("<h2>6) Упорядкований список за спаданням прибутку:</h2>")
+        document.write("<ul>")
+            sortedWebsites.forEach((website) => {
+            document.write(`<li><h5>Company: ${website.company}, Price: ${website.priceWebsite}</h5></li>`)
+            })
+        document.write("</ul>")
+
+//===============================================================================================================
+        // 7) Створити 2 окремих списки з копіями об’єктів, що містять сайти з вартість до 10000 і більше 10000.priceWebsite
+        let websitesLessThan10000 = websites.filter((website) => website.priceWebsite <= 10000);
+        let websitesMoreThan10000 = websites.filter((website) => website.priceWebsite > 10000);
+
+        // Виведення списків на сторінку:
+        document.write("<h2>7) Список сайтів з вартістю меньше або дорівнює 10000:</h2>");
+        document.write("<ul>")
+            websitesLessThan10000.forEach((website) => {
+                document.write(`<li><h5>Company: ${website.company}, Price: ${website.priceWebsite}</h5></li>`);
+            });
+
+            document.write("<h2> Список сайтів з вартістю більше 10000:</h2>");
+                websitesMoreThan10000.forEach((website) => {
+                document.write(`<li><h5>Company: ${website.company}, Price: ${website.priceWebsite}</h5></li>`);
+            });
+        document.write("</ul>")
+//===============================================================================================================
+
+    </script>
+</body>
+</html>
